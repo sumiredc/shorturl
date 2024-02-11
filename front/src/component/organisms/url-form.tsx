@@ -13,6 +13,8 @@ import { Send } from "@mui/icons-material";
 import { ChangeEvent, useState } from "react";
 import { Api, LinkResponse } from "@/lib/api";
 import UrlList from "../molecules/url-list";
+import { UrlStoreValidator } from "@/service/validator/url-store-validator";
+import { ValidationException } from "@/exceptions/validation-exception";
 
 export default function UrlForm() {
   const [url, setUrl] = useState("");
@@ -26,13 +28,20 @@ export default function UrlForm() {
 
   function handleClick() {
     setLoading(true);
+    setErrorMessage("");
 
-    if (!url) {
+    try {
+      const validator = new UrlStoreValidator(url);
+      validator.validate();
+    } catch (e: unknown) {
+      if (e instanceof ValidationException) {
+        setErrorMessage(e.message);
+      } else {
+        console.error(e);
+      }
       setLoading(false);
-      setErrorMessage("入力が必要です");
       return;
     }
-    setErrorMessage("");
 
     createUrl().finally(() => {
       setLoading(false);

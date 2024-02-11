@@ -7,7 +7,7 @@ import (
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-func Random(digit uint32) (string, error) {
+func Random(digit int) (string, error) {
 	b := make([]byte, digit)
 	if _, err := rand.Read(b); err != nil {
 		return "", errors.New("Unexpected error.")

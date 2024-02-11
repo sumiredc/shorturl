@@ -1,100 +1,50 @@
 package controller
 
 import (
-	"errors"
 	"net/http"
 
-	"example.com/shorturl/app/domain/entity"
 	"example.com/shorturl/app/interface/gateway/database"
 	"example.com/shorturl/app/interface/presenter"
-	"example.com/shorturl/app/service/num"
-	"example.com/shorturl/app/service/str"
+	"example.com/shorturl/app/interface/request/url_store_request"
+	"example.com/shorturl/app/repository/link_repository"
+	"example.com/shorturl/app/use_case"
 	"github.com/labstack/echo/v4"
-	"gorm.io/gorm"
-)
-
-const (
-	MAX_ATTEMPTS = 10
-	SLUG_LEN     = 5
 )
 
 func (_ *Controller) UrlStore(c echo.Context) error {
+	// バリデーション
+	req, err := url_store_request.New(c.Request())
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	// DBに接続
 	db, err := database.New().Connect()
 	if err != nil {
 		return err
 	}
 
 	// slugの長さを判定
-
-	length := SLUG_LEN
-	letters_len := len(str.LETTERS)
-
-	for true {
-		p, err := num.Permutation(letters_len, length)
-		if err != nil {
-			return err
-		}
-
-		var count int64
-		err = db.Table("links").Where("length", length).Count(&count).Error
-
-		if err != nil {
-			return err
-		}
-
-		if count < int64(p/2) {
-			break
-		}
-		length++
+	length, err := use_case.NewSlugLen(db)
+	if err != nil {
+		return err
 	}
 
 	// ユニークなslugを生成
-
-	var slug string
-	attempts := 0
-
-	for true {
-		if attempts > MAX_ATTEMPTS {
-			return errors.New("Attempt limit reached.")
-		}
-
-		slug, err = str.Random(5)
-		if err != nil {
-			return err
-		}
-
-		link := &entity.Link{}
-		err = db.Where("slug = ?", slug).First(link).Error
-
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			break
-		}
-
-		if err != nil {
-			return err
-		}
-
-		attempts++
+	slug, err := use_case.UniqueSlug(db, length)
+	if err != nil {
+		return err
 	}
 
 	// レコード作成
+	rep := link_repository.New(db)
 
-	original := c.Request().FormValue("original")
-
-	link := &entity.Link{
-		Original: original,
-		Slug:     slug,
-		Length:   length,
-	}
-
-	err = db.Create(&link).Error
+	link, err := rep.Create(req.Original, slug, length)
 	if err != nil {
 		return err
 	}
 
 	// レスポンス生成
-
 	res := presenter.NewLinkResponse(link)
-
 	return c.JSON(http.StatusOK, res)
 }
