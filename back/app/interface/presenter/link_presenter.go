@@ -1,9 +1,7 @@
 package presenter
 
 import (
-	"fmt"
-	"os"
-
+	"github.com/sumiredc/shorturl/app/domain"
 	"github.com/sumiredc/shorturl/app/domain/entity"
 )
 
@@ -13,8 +11,7 @@ type LinkResponse struct {
 }
 
 func NewLinkResponse(link *entity.Link) *LinkResponse {
-	url := os.Getenv("FRONT_URL")
-	short := fmt.Sprintf("%s/%s", url, link.Slug)
+	short := domain.ShortUrl(link.Slug)
 
 	return &LinkResponse{
 		Original: link.Original,
@@ -23,11 +20,10 @@ func NewLinkResponse(link *entity.Link) *LinkResponse {
 }
 
 func NewLinksResponse(links []*entity.Link) []*LinkResponse {
-	var res []*LinkResponse
-	url := os.Getenv("FRONT_URL")
+	res := []*LinkResponse{}
 
 	for _, link := range links {
-		short := fmt.Sprintf("%s/%s", url, link.Slug)
+		short := domain.ShortUrl(link.Slug)
 		res = append(res, &LinkResponse{Original: link.Original, Short: short})
 	}
 

@@ -1,15 +1,9 @@
 "use client";
 
 import { Api, LinkResponse } from "@/lib/api";
-import { Link } from "@mui/icons-material";
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import { saveClipboard } from "@/service/save-clipboard";
 import { useEffect, useState } from "react";
+import UrlList from "@/component/molecules/url-list";
 
 export default function HistoryPage() {
   const [urlList, setUrlList] = useState<LinkResponse[]>([]);
@@ -37,18 +31,5 @@ export default function HistoryPage() {
     };
   }, []);
 
-  return (
-    <List>
-      {urlList.map((url, idx) => (
-        <ListItem key={idx} disablePadding>
-          <ListItemButton href={url.short} target="_blank">
-            <ListItemIcon>
-              <Link />
-            </ListItemIcon>
-            <ListItemText primary={url.short} />
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
-  );
+  return <UrlList urlList={urlList} />;
 }
