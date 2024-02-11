@@ -3,12 +3,12 @@ package controller
 import (
 	"net/http"
 
-	"example.com/shorturl/app/interface/gateway/database"
-	"example.com/shorturl/app/interface/presenter"
-	"example.com/shorturl/app/interface/request/url_store_request"
-	"example.com/shorturl/app/repository/link_repository"
-	"example.com/shorturl/app/use_case"
 	"github.com/labstack/echo/v4"
+	"github.com/sumiredc/shorturl/app/interface/gateway/database"
+	"github.com/sumiredc/shorturl/app/interface/presenter"
+	"github.com/sumiredc/shorturl/app/interface/request/url_store_request"
+	"github.com/sumiredc/shorturl/app/repository/link_repository"
+	"github.com/sumiredc/shorturl/app/use_case"
 )
 
 func (_ *Controller) UrlStore(c echo.Context) error {

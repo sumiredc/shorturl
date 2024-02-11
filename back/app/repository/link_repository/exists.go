@@ -3,7 +3,7 @@ package link_repository
 import (
 	"errors"
 
-	"example.com/shorturl/app/domain/entity"
+	"github.com/sumiredc/shorturl/app/domain/entity"
 	"gorm.io/gorm"
 )
 

@@ -3,7 +3,7 @@ package url_store_request
 import (
 	"net/http"
 
-	"example.com/shorturl/app/service/validator"
+	"github.com/sumiredc/shorturl/app/service/validator"
 )
 
 type UrlStoreRequest struct {

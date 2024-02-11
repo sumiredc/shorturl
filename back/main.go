@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"example.com/shorturl/app/interface/gateway/database"
-	"example.com/shorturl/app/interface/route"
+	"github.com/sumiredc/shorturl/app/interface/gateway/database"
+	"github.com/sumiredc/shorturl/app/interface/route"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"

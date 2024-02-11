@@ -1,6 +1,6 @@
 package link_repository
 
-import "example.com/shorturl/app/domain/entity"
+import "github.com/sumiredc/shorturl/app/domain/entity"
 
 func (r *LinkRepository) Create(original string, slug string, length int) (*entity.Link, error) {
 	link := &entity.Link{

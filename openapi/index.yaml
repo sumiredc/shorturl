@@ -16,11 +16,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
+                type: array
+                items:
                       $ref: '#/components/schemas/LinkResponse'
     post:
       summary: 登録

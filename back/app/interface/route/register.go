@@ -3,8 +3,8 @@ package route
 import (
 	"os"
 
-	"example.com/shorturl/app/interface/controller"
 	"github.com/labstack/echo/v4"
+	"github.com/sumiredc/shorturl/app/interface/controller"
 )
 
 func (_ *Route) Register(e *echo.Echo) {

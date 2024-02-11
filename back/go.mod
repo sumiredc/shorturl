@@ -1,4 +1,4 @@
-module example.com/shorturl
+module github.com/sumiredc/shorturl
 
 go 1.21.1
 

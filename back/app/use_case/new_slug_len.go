@@ -1,9 +1,9 @@
 package use_case
 
 import (
-	"example.com/shorturl/app/repository/link_repository"
-	"example.com/shorturl/app/service/num"
-	"example.com/shorturl/app/service/str"
+	"github.com/sumiredc/shorturl/app/repository/link_repository"
+	"github.com/sumiredc/shorturl/app/service/num"
+	"github.com/sumiredc/shorturl/app/service/str"
 	"gorm.io/gorm"
 )
 

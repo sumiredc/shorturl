@@ -241,12 +241,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/url
      */
     getUrl: (params: RequestParams = {}) =>
-      this.request<
-        {
-          data?: LinkResponse[];
-        },
-        any
-      >({
+      this.request<LinkResponse[], any>({
         path: `/url`,
         method: "GET",
         format: "json",
